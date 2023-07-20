@@ -433,3 +433,23 @@ extension ApiHandlerClass
 //
 //    }
 //}
+
+extension exampleController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.isKind(of: UITableView.self) {
+            if !isFetchingData {
+                let scrollViewHeight = scrollView.frame.size.height
+                let scrollContentSizeHeight = scrollView.contentSize.height
+                let scrollOffset = scrollView.contentOffset.y
+                
+                if scrollOffset + scrollViewHeight >= scrollContentSizeHeight - 50 {
+                    if !noMoreRecordsAvailable {
+                        isFetchingData = true
+                        skip += 10
+                        self.getNewsData()
+                    }
+                }
+            }
+        }
+    }
+}
